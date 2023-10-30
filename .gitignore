@@ -1,6 +1,7 @@
 node_modules
 .vscode/*
 coverage/*
+dist
 
 .DS_Store
 
