@@ -1,0 +1,24 @@
+{
+  "bugs": [
+    {
+      "title": "Bug for Frontend",
+      "description": "Fix React issue",
+      "userId": 1,
+      "resolved": true
+    },
+    {
+      "title": "Bug for Backend",
+      "description": "Fix Express issue",
+      "userId": 1
+    },
+    {
+      "title": "Bug for Designer",
+      "description": "Make a design layout",
+      "userId": 2
+    },
+    {
+      "title": "Task for PM",
+      "description": "Give task for all team"
+    }
+  ]
+}
