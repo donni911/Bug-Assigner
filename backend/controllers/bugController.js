@@ -49,6 +49,7 @@ export const updateBug = async (req, res) => {
         bug,
       },
     });
+    
   } catch (error) {
     res.status(404).json({
       status: "failed",
