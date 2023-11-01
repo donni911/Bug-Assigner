@@ -1,12 +1,19 @@
-import { Box, Container, HStack, Heading, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Container,
+  HStack,
+  Heading,
+  VStack,
+} from "@chakra-ui/react";
 
-import AddProjectButton from "../components/Project/AddProjectButton";
 import ProjectList from "../components/Project/ProjectList";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
     <VStack>
-      <Container maxW="1440px">
+      <Container p={0} maxW="1440px">
         <VStack w="100%" gap={4}>
           <Box
             w="100%"
@@ -21,7 +28,13 @@ const Home = () => {
               <Heading as="h2" size="xl" color="#000">
                 Projects
               </Heading>
-              <AddProjectButton />
+              <Button
+                variant={"primary"}
+                as={Link}
+                to={"/projects/add-project"}
+              >
+                Add Project
+              </Button>
             </HStack>
           </Box>
           <ProjectList />

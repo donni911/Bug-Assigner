@@ -1,10 +1,14 @@
-import NavBar from "../components/UI/Navbar";
-import Home from "./Home";
+import Navbar from "../components/UI/Navbar";
+import PageWrapper from "../components/UI/PageWrapper";
+import { Outlet } from "react-router-dom";
 
 function Layout() {
   return (
     <>
-      <Home />
+      <Navbar />
+      <PageWrapper>
+        <Outlet />
+      </PageWrapper>
     </>
   );
 }
