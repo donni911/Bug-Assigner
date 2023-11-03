@@ -1,5 +1,10 @@
 import { Formik, Field, Form, FieldArray } from "formik";
 import * as Yup from "yup";
+import { useDispatch } from "react-redux";
+import {  useNavigate } from "react-router-dom";
+
+import { projectAdded } from "../../store/slices/projects.js";
+import { addProject } from "../../store/slices/projects.js";
 
 import {
   FormControl,
@@ -22,6 +27,10 @@ type formValues = {
 };
 
 const ModalProject = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // ASK: where to save such data?
   const technologieValues = [
     {
       name: "React",
@@ -56,11 +65,14 @@ const ModalProject = () => {
     description: Yup.string()
       .min(30, "Too Short Description (min 30 character`s)")
       .required("Required field"),
-    technologies: Yup.array().required("Choose at least one technologie"),
+    technologies: Yup.array()
+      .min(2, "Should be at least 2 technologies choosed")
+      .required("Choose at least one technologie"),
   });
 
   const submitForm = (values: formValues) => {
-    console.log(values);
+    dispatch(addProject(values));
+    navigate("/");
   };
 
   return (
@@ -106,7 +118,9 @@ const ModalProject = () => {
                 <FormErrorMessage>{errors.description}</FormErrorMessage>
               ) : null}
             </FormControl>
-            <FormControl>
+            <FormControl
+              isInvalid={!!errors.technologies && touched.technologies}
+            >
               <FormLabel htmlFor="technologies" fontWeight={"normal"}>
                 Choose your technologies
               </FormLabel>
@@ -139,9 +153,12 @@ const ModalProject = () => {
                   </HStack>
                 )}
               />
+              {errors.technologies && touched.technologies ? (
+                <FormErrorMessage>{errors.technologies}</FormErrorMessage>
+              ) : null}
             </FormControl>
 
-            <Button type="submit" variant={"primary"} w={"full"}>
+            <Button mt={4} type="submit" variant={"primary"} w={"full"}>
               Submit
             </Button>
           </Form>

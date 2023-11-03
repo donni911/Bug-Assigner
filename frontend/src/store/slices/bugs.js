@@ -4,7 +4,6 @@ import moment from "moment";
 
 const slice = createSlice({
   name: "bugs",
-
   initialState: {
     list: [],
     loading: false,
@@ -38,7 +37,6 @@ const slice = createSlice({
     bugAssignedToUser: (bugs, action) => {
       const { id: bugId, userId } = action.payload;
       const index = bugs.list.findIndex((bug) => bug.id === bugId);
-
       bugs.list[index].userId = userId;
     },
   },

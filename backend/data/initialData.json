@@ -20,5 +20,17 @@
       "title": "Task for PM",
       "description": "Give task for all team"
     }
+  ],
+  "projects": [
+    {
+      "title": "Airbnb",
+      "description": "Find the perfect place to stay at an amazing price in 191 countries. Belong anywhere with Airbnb.",
+      "technologies": ["React", "MongoDB", "Express", "Node.js"]
+    },
+    {
+      "title": "Car Trader",
+      "description": "A company specializing in the purchase, registration and customs clearance of cars from the USA, Europe and China.",
+      "technologies": ["Vue", "MongoDB", "Express", "Node.js"]
+    }
   ]
 }

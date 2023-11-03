@@ -1,5 +1,5 @@
 import axios from "axios";
-import * as actions from "../api.js";
+import * as actions from "../api.ts";
 
 const api =
   ({ dispatch }) =>

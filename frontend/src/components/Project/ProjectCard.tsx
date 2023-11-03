@@ -1,24 +1,14 @@
 import { Box, Heading, Text, Flex, Center, HStack } from "@chakra-ui/react";
-
 import { BsArrowUpRight } from "react-icons/bs";
-
 import { Link } from "react-router-dom";
-import ShortInfo from "./components/ShortInfo";
+
+// import ShortInfo from "./components/ShortInfo";
 import TechnologyStack from "./components/TechnologyStack";
+import { Project } from "../../types/project";
 
-type Props = {
-  project: {
-    id: number;
-    slug: string;
-    title: string;
-    bugs: object[];
-    teamMembers: object[];
-    stack: string[];
-    description: string;
-  };
-};
+const ProjectCard = (props: Project) => {
+  console.log(props);
 
-const ProjectCard = ({ project }: Props) => {
   return (
     <Center w="100%">
       <Box
@@ -30,19 +20,16 @@ const ProjectCard = ({ project }: Props) => {
         borderColor="black"
       >
         <Box p={4}>
-          <TechnologyStack stack={project.stack} />
+          <TechnologyStack technologies={props.project.technologies} />
 
           <Heading mb={4} color={"black"} fontSize={"2xl"} noOfLines={1}>
-            {project.title}
+            {props.project.title}
           </Heading>
 
-          <ShortInfo
-            bugs={project.bugs.length}
-            teamMembers={project.teamMembers.length}
-          />
+          {/* <ShortInfo bugs={props.project.bugs.length || 0} /> */}
 
           <Text mt={2} noOfLines={2}>
-            {project.description}
+            {props.project.description}
           </Text>
         </Box>
         <HStack borderTop={"1px"} color="black">
@@ -63,7 +50,7 @@ const ProjectCard = ({ project }: Props) => {
               fontSize={"md"}
               fontWeight={"semibold"}
               as={Link}
-              to={`/projects/${project.slug}`}
+              to={`/projects/${props.project.slug}`}
               variant="full-block"
             >
               View more

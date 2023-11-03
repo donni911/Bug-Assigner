@@ -25,6 +25,11 @@ const bugSchema = new Schema(
       type: Boolean,
     },
 
+    projectId: {
+      type: Schema.Types.ObjectId,
+      ref: "Project",
+    },
+
     userId: {
       type: Number,
     },
