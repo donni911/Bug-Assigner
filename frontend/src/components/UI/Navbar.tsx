@@ -20,11 +20,11 @@ function NavBar() {
   const links = [
     {
       url: "/",
-      title: "Home",
+      title: "Projects",
     },
     {
-      url: "/projects",
-      title: "Projects",
+      url: "/bugs",
+      title: "Bugs",
     },
   ];
 

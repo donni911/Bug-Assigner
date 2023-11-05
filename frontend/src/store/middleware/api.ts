@@ -6,7 +6,6 @@ const api: Middleware =
   ({ dispatch }) =>
     (next) =>
       async (action: { type: string, payload: actions.BeganPayload }) => {
-        console.log(action);
 
         if (action.type !== actions.apiCallBegan.type) return next(action);
 
@@ -36,7 +35,9 @@ const api: Middleware =
           dispatch(actions.apiCallFailed(error.message));
           // Specific
           if (onError) {
-            dispatch({ type: onError, payload: error.message });
+            console.log('err');
+
+            dispatch({ type: onError, payload: error.response.data.message });
           }
         }
       };

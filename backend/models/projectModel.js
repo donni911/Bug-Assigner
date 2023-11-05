@@ -1,25 +1,20 @@
 import mongoose from "mongoose";
-import slug from "mongoose-slug-generator";
-
-mongoose.plugin(slug);
 
 const Schema = mongoose.Schema;
 
-const projectSchema = new Schema({
-  slug: {
-    type: String,
-    slug: "title",
+const projectSchema = new Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    description: { type: String, required: true, trim: true },
+    technologies: {
+      type: Array,
+    },
   },
-  title: {
-    type: String,
-    required: true,
-  },
-  description: { type: String, required: true, trim: true },
-  technologies: {
-    type: Array,
-  },
-
-});
+  { timestamps: true }
+);
 
 const Project = mongoose.model("Project", projectSchema);
 

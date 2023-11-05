@@ -73,10 +73,11 @@ export const addProject = async (req, res) => {
       status: "success",
       project,
     });
+    
   } catch (error) {
     res.status(404).json({
       status: "failed",
-      message: error.message,
+      message: error,
     });
   }
 };

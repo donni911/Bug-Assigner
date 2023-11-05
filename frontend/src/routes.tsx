@@ -1,9 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "./pages/Layout.tsx";
 import ErrorPage from "./pages/ErrorPage.tsx";
-import Home from "./pages/Home.tsx";
+import ProjectsPage from "./pages/ProjectsPage.tsx";
 import AddProject from "./pages/AddProject.tsx";
-import Project from "./pages/Project.tsx";
+import BugsPage from "./pages/BugsPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -13,11 +13,11 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />,
+        element: <ProjectsPage />,
       },
       {
-        element: <Project />,
-        path: "/projects",
+        element: <BugsPage />,
+        path: "/bugs",
       },
       {
         path: "/projects/add-project",

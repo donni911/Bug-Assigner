@@ -10,7 +10,7 @@ import {
 import ProjectList from "../components/Project/ProjectList";
 import { Link } from "react-router-dom";
 
-const Home = () => {
+const ProjectsPage = () => {
   return (
     <VStack>
       <Container p={0} maxW="1440px">
@@ -44,4 +44,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default ProjectsPage;

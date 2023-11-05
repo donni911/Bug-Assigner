@@ -2,17 +2,20 @@ import { createSlice } from "@reduxjs/toolkit";
 import { apiCallBegan } from "../api.ts";
 import { Project } from "../../types/Project";
 
-// import moment from "moment";
+import moment from "moment";
+import { AppDispatch, RootState } from "../store.ts";
 
 type InitialState = {
   list: Array<Project>,
   loading: boolean,
-  lastFetch: Number | null,
+  errors: {},
+  lastFetch?: undefined | null | number,
 }
 
 const initialState: InitialState = {
   list: [],
   loading: false,
+  errors: {},
   lastFetch: null,
 }
 
@@ -26,7 +29,9 @@ const slice = createSlice({
     },
 
     projectsRequestFailed: (projects, action) => {
+      console.log('fail');
       projects.loading = false;
+      projects.errors = action.payload.errors;
     },
 
     projectsReceived: (projects, action) => {
@@ -36,7 +41,10 @@ const slice = createSlice({
     },
 
     projectAdded: (projects, action) => {
-      projects.list.push(action.payload);
+      console.log('added');
+      projects.loading = false;
+      projects.errors = {};
+      projects.list.push(action.payload.project);
     },
   },
 });
@@ -50,23 +58,22 @@ export const {
 
 const url = "/projects";
 
-export const loadProjects = () => {
-  // const { lastFetch } = getState().entities.projects;
+export const loadProjects = (dispatch: AppDispatch, getState: () => RootState) => {
+  const lastFetch = getState().entities.projects.lastFetch;
+  const diffInMinutes = moment().diff(moment(lastFetch), "minutes");
 
-  // const diffInMinutes = moment().diff(moment(lastFetch), "minutes");
+  if (diffInMinutes < 1) {
+    return;
+  }
 
-  // if (diffInMinutes < 10) {
-  //   return;
-  // }
-
-  return apiCallBegan({
+  return dispatch(apiCallBegan({
     url,
     onStart: projectsRequested.type,
     onSuccess: projectsReceived.type,
     onError: projectsRequestFailed.type,
     // Specific
     // onError: actions.apiCallFailed.type,
-  });
+  }))
 };
 
 export const addProject = (project: Project) =>
@@ -74,7 +81,9 @@ export const addProject = (project: Project) =>
     url,
     method: "post",
     data: project,
+    onStart: projectsRequested.type,
     onSuccess: projectAdded.type,
+    onError: projectsRequestFailed.type
   });
 
 export default slice.reducer;

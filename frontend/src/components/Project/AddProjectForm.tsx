@@ -1,10 +1,10 @@
 import { Formik, Field, Form, FieldArray } from "formik";
 import * as Yup from "yup";
-import { useDispatch } from "react-redux";
-import {  useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-import { projectAdded } from "../../store/slices/projects.js";
 import { addProject } from "../../store/slices/projects.js";
+import { technologieValues } from "../../data/technologies.js";
 
 import {
   FormControl,
@@ -18,37 +18,45 @@ import {
   Heading,
   Checkbox,
   HStack,
+  useToast,
 } from "@chakra-ui/react";
+import { RootState } from "../../store/store.js";
+import { useEffect, useState } from "react";
 
 type formValues = {
   title: string;
   description: string;
-  technologies: object[];
+  technologies: string[];
 };
 
 const ModalProject = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // ASK: where to save such data?
-  const technologieValues = [
-    {
-      name: "React",
-      value: "react",
-    },
-    {
-      name: "Vue",
-      value: "vue",
-    },
-    {
-      name: "PHP",
-      value: "php",
-    },
-    {
-      name: "Node.js",
-      value: "node-js",
-    },
-  ];
+  const toast = useToast();
+  const [showToast, setShowToast] = useState(false);
+  const { errors, loading } = useSelector(
+    (state: RootState) => state.entities.projects
+  );
+
+  useEffect(() => {
+    if (errors && showToast) {
+      toast({
+        title: "Something went wrong.",
+        description: errors.title.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    } else if (!errors) {
+      toast({
+        title: "Project added.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  }, [errors]);
 
   const formValues: formValues = {
     title: "Project",
@@ -72,7 +80,11 @@ const ModalProject = () => {
 
   const submitForm = (values: formValues) => {
     dispatch(addProject(values));
-    navigate("/");
+    setShowToast(true);
+
+    if (!errors) {
+      navigate("/");
+    }
   };
 
   return (
@@ -158,7 +170,14 @@ const ModalProject = () => {
               ) : null}
             </FormControl>
 
-            <Button mt={4} type="submit" variant={"primary"} w={"full"}>
+            <Button
+              mt={4}
+              type="submit"
+              variant={"primary"}
+              w={"full"}
+              isLoading={loading}
+              loadingText="Submitting"
+            >
               Submit
             </Button>
           </Form>

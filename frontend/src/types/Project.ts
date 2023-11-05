@@ -1,7 +1,7 @@
 export type Project = {
-    _id: string;
-    slug: string;
+    _id?: string;
     title: string;
-    technologies: string[];
     description: string;
+    slug?: string;
+    technologies?: string[];
 }
