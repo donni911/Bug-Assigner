@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { apiCallBegan } from "../api.ts";
-import { Project } from "../../types/project";
+import { Project } from "../../types/Project";
 
 // import moment from "moment";
 
@@ -18,7 +18,6 @@ const initialState: InitialState = {
 
 const slice = createSlice({
   name: "projects",
-
   initialState,
 
   reducers: {
@@ -31,16 +30,13 @@ const slice = createSlice({
     },
 
     projectsReceived: (projects, action) => {
-      projects.list = action.payload;
+      projects.list = action.payload.projects;
       projects.loading = false;
       projects.lastFetch = Date.now();
     },
 
-    projectAdded: (project, action) => {
-      const newProject = {
-        ...action.payload,
-      };
-      project.list.push(newProject);
+    projectAdded: (projects, action) => {
+      projects.list.push(action.payload);
     },
   },
 });

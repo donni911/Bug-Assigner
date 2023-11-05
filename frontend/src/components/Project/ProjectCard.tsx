@@ -4,11 +4,9 @@ import { Link } from "react-router-dom";
 
 // import ShortInfo from "./components/ShortInfo";
 import TechnologyStack from "./components/TechnologyStack";
-import { Project } from "../../types/project";
+import { Project } from "../../types/Project.ts";
 
 const ProjectCard = (props: Project) => {
-  console.log(props);
-
   return (
     <Center w="100%">
       <Box
@@ -20,16 +18,16 @@ const ProjectCard = (props: Project) => {
         borderColor="black"
       >
         <Box p={4}>
-          <TechnologyStack technologies={props.project.technologies} />
+          <TechnologyStack technologies={props.technologies} />
 
           <Heading mb={4} color={"black"} fontSize={"2xl"} noOfLines={1}>
-            {props.project.title}
+            {props.title}
           </Heading>
 
-          {/* <ShortInfo bugs={props.project.bugs.length || 0} /> */}
+          {/* <ShortInfo bugs={props.bugs.length || 0} /> */}
 
           <Text mt={2} noOfLines={2}>
-            {props.project.description}
+            {props.description}
           </Text>
         </Box>
         <HStack borderTop={"1px"} color="black">
@@ -50,7 +48,7 @@ const ProjectCard = (props: Project) => {
               fontSize={"md"}
               fontWeight={"semibold"}
               as={Link}
-              to={`/projects/${props.project.slug}`}
+              to={`/projects/${props.slug}`}
               variant="full-block"
             >
               View more

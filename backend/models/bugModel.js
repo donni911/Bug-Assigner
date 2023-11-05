@@ -30,9 +30,9 @@ const bugSchema = new Schema(
       ref: "Project",
     },
 
-    userId: {
-      type: Number,
-    },
+    // userId: {
+    //   type: Number,
+    // },
   },
   {
     versionKey: false,

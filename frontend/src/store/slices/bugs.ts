@@ -2,13 +2,25 @@ import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { apiCallBegan } from "../api";
 import moment from "moment";
 
+import { Bug } from '../../types/Bug.ts'
+
+import { AppDispatch, RootState } from "../store.ts";
+
+type InitialState = {
+  list: Array<Bug>,
+  loading: boolean,
+  lastFetch?: undefined | null | number,
+}
+
+const initialState: InitialState = {
+  list: [],
+  loading: false,
+  lastFetch: null,
+}
+
 const slice = createSlice({
   name: "bugs",
-  initialState: {
-    list: [],
-    loading: false,
-    lastFetch: null,
-  },
+  initialState,
 
   reducers: {
     bugsRequested: (bugs, action) => {
@@ -30,13 +42,13 @@ const slice = createSlice({
     },
 
     bugResolved: (bugs, action) => {
-      const index = bugs.list.findIndex((bug) => bug.id === action.payload.id);
+      const index = bugs.list.findIndex((bug: Bug) => bug._id === action.payload.id);
       bugs.list[index].resolved = true;
     },
 
     bugAssignedToUser: (bugs, action) => {
       const { id: bugId, userId } = action.payload;
-      const index = bugs.list.findIndex((bug) => bug.id === bugId);
+      const index = bugs.list.findIndex((bug: Bug) => bug._id === bugId);
       bugs.list[index].userId = userId;
     },
   },
@@ -56,8 +68,8 @@ export default slice.reducer;
 // Action Creators
 const url = "/bugs";
 
-export const loadBugs = () => (dispatch, getState) => {
-  const { lastFetch } = getState().entities.bugs;
+export const loadBugs = () => (dispatch: AppDispatch, getState: () => RootState) => {
+  const lastFetch = getState().entities.bugs.lastFetch;
 
   const diffInMinutes = moment().diff(moment(lastFetch), "minutes");
 
@@ -79,7 +91,7 @@ export const loadBugs = () => (dispatch, getState) => {
 
 // make an api call;
 // promise resolved => dispatch(success) / dispatch(fail)
-export const addBug = (bug) =>
+export const addBug = (bug: Bug) =>
   apiCallBegan({
     url,
     method: "post",
@@ -87,7 +99,7 @@ export const addBug = (bug) =>
     onSuccess: bugAdded.type,
   });
 
-export const resolveBug = (id) =>
+export const resolveBug = (id: string) =>
   apiCallBegan({
     url: url + `/${id}`,
     method: "patch",
@@ -95,7 +107,7 @@ export const resolveBug = (id) =>
     onSuccess: bugResolved.type,
   });
 
-export const assignBugToUser = (bugId, userId) =>
+export const assignBugToUser = (bugId: string, userId: string) =>
   apiCallBegan({
     url: url + `/${bugId}`,
     method: "patch",
@@ -110,13 +122,13 @@ export const assignBugToUser = (bugId, userId) =>
 
 // Memoization
 export const getUnresolvedBugs = createSelector(
-  (state) => state.entities.bugs,
+  (state: RootState) => state.entities.bugs,
   (bugs) => bugs.list.filter((bug) => !bug.resolved)
 );
 
 // Memoization
-export const getBugByUser = (userId) =>
+export const getBugByUser = (userId: string) =>
   createSelector(
-    (state) => state.entities.bugs.list,
-    (bugs) => bugs.list.filter((bug) => bug.userId === userId)
+    (state: RootState) => state.entities.bugs.list,
+    (bugs) => bugs.filter((bug) => bug.userId === userId)
   );

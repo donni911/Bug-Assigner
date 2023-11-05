@@ -6,7 +6,7 @@ export const getProjects = async (req, res) => {
 
     res.status(200).json({
       status: "success",
-      data: projects,
+      projects,
     });
   } catch (error) {
     res.status(404).json({
@@ -45,9 +45,7 @@ export const updateProject = async (req, res) => {
 
     res.status(200).json({
       status: "success",
-      data: {
-        project,
-      },
+      project,
     });
   } catch (error) {
     res.status(404).json({
@@ -73,7 +71,7 @@ export const addProject = async (req, res) => {
 
     res.status(201).json({
       status: "success",
-      data: { project },
+      project,
     });
   } catch (error) {
     res.status(404).json({

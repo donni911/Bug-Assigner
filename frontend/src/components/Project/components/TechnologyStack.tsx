@@ -1,12 +1,14 @@
 import { Box, HStack, Text } from "@chakra-ui/react";
 
-type Technologies = string[];
+type Props = {
+  technologies: string[];
+};
 
-const TechnologyStack = (props: Technologies) => {
+const TechnologyStack = ({ technologies }: Props) => {
   return (
     <HStack gap={2} mb={2} flexWrap="wrap">
-      {props.technologies.length &&
-        props.technologies.map((el) => (
+      {technologies.length &&
+        technologies.map((el) => (
           <Box
             key={el}
             bg="black"
