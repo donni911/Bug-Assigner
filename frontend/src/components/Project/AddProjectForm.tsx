@@ -1,10 +1,11 @@
 import { Formik, Field, Form, FieldArray } from "formik";
 import * as Yup from "yup";
+
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { addProject } from "../../store/slices/projects.js";
-import { technologieValues } from "../../data/technologies.js";
+import { addProject } from "../../store/slices/projects";
+import { technologieValues } from "../../data/technologies";
 
 import {
   FormControl,
@@ -20,8 +21,7 @@ import {
   HStack,
   useToast,
 } from "@chakra-ui/react";
-import { RootState } from "../../store/store.js";
-import { useEffect, useState } from "react";
+import { RootState } from "../../store/store";
 
 type formValues = {
   title: string;
@@ -32,31 +32,11 @@ type formValues = {
 const ModalProject = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const toast = useToast();
-  const [showToast, setShowToast] = useState(false);
-  const { errors, loading } = useSelector(
+
+  const { loading, errors } = useSelector(
     (state: RootState) => state.entities.projects
   );
-
-  useEffect(() => {
-    if (errors && showToast) {
-      toast({
-        title: "Something went wrong.",
-        description: errors.title.message,
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
-    } else if (!errors) {
-      toast({
-        title: "Project added.",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
-    }
-  }, [errors]);
 
   const formValues: formValues = {
     title: "Project",
@@ -78,12 +58,28 @@ const ModalProject = () => {
       .required("Choose at least one technologie"),
   });
 
-  const submitForm = (values: formValues) => {
-    dispatch(addProject(values));
-    setShowToast(true);
+  const submitForm = async (values: formValues) => {
+    try {
+      await dispatch(addProject(values));
 
-    if (!errors) {
-      navigate("/");
+      if (errors) {
+        toast({
+          title: `Something went wrong.`,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: `Project ${values.title} was created.`,
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 

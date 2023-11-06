@@ -4,9 +4,13 @@ const Schema = mongoose.Schema;
 
 const projectSchema = new Schema(
   {
-    title: {
+    slug: {
       type: String,
       required: true,
+    },
+    title: {
+      type: String,
+      required: [true, "Title should be required!"],
     },
     description: { type: String, required: true, trim: true },
     technologies: {

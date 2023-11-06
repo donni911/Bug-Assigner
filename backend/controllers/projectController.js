@@ -1,4 +1,5 @@
 import Project from "../models/projectModel.js";
+import { slugStr } from "../utils/slug.js";
 
 export const getProjects = async (req, res) => {
   try {
@@ -65,7 +66,12 @@ export const addProject = async (req, res) => {
       throw new Error("Project should contain title!");
     }
 
-    const project = new Project(req.body);
+    const slug = await slugStr(req.body.title);
+
+    const project = new Project({
+      slug,
+      ...req.body,
+    });
 
     await project.save();
 
@@ -73,8 +79,8 @@ export const addProject = async (req, res) => {
       status: "success",
       project,
     });
-    
   } catch (error) {
+    console.log(error);
     res.status(404).json({
       status: "failed",
       message: error,

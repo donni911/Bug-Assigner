@@ -8,14 +8,14 @@ import { AppDispatch, RootState } from "../store.ts";
 type InitialState = {
   list: Array<Project>,
   loading: boolean,
-  errors: {},
+  errors: null,
   lastFetch?: undefined | null | number,
 }
 
 const initialState: InitialState = {
   list: [],
   loading: false,
-  errors: {},
+  errors: null,
   lastFetch: null,
 }
 
@@ -29,9 +29,8 @@ const slice = createSlice({
     },
 
     projectsRequestFailed: (projects, action) => {
-      console.log('fail');
       projects.loading = false;
-      projects.errors = action.payload.errors;
+      projects.errors = action.payload;
     },
 
     projectsReceived: (projects, action) => {
@@ -41,9 +40,7 @@ const slice = createSlice({
     },
 
     projectAdded: (projects, action) => {
-      console.log('added');
       projects.loading = false;
-      projects.errors = {};
       projects.list.push(action.payload.project);
     },
   },

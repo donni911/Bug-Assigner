@@ -35,9 +35,7 @@ const api: Middleware =
           dispatch(actions.apiCallFailed(error.message));
           // Specific
           if (onError) {
-            console.log('err');
-
-            dispatch({ type: onError, payload: error.response.data.message });
+            dispatch({ type: onError, payload: error });
           }
         }
       };

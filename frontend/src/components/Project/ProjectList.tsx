@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { SimpleGrid } from "@chakra-ui/react";
+import { SimpleGrid, Text } from "@chakra-ui/react";
 
 import { Project } from "../../types/Project.ts";
 import store, { RootState } from "../../store/store.ts";
@@ -29,27 +29,30 @@ const ProjectList = () => {
   }, [dispatch]);
 
   const skeletons = [1, 2, 3, 4];
-
-  return (
-    <SimpleGrid w="100%" columns={{ base: 1, sm: 2, lg: 3, xl: 4 }} gap={6}>
-      {!loading &&
-        projects &&
-        projects?.map((project: Project) => (
-          <ProjectCard
-            key={project._id}
-            _id={project._id}
-            title={project.title}
-            description={project.description}
-            technologies={project.technologies}
-            slug={project._id}
-          />
-        ))}
-      {loading &&
-        skeletons.map((skeleton) => (
-          <ProjectCardSkeleton key={skeleton}></ProjectCardSkeleton>
-        ))}
-    </SimpleGrid>
-  );
+  if (!loading && !projects.length) {
+    return <Text>No Projects yet, want to add some?</Text>;
+  } else {
+    return (
+      <SimpleGrid w="100%" columns={{ base: 1, sm: 2, lg: 3, xl: 4 }} gap={6}>
+        {!loading &&
+          projects &&
+          projects?.map((project: Project) => (
+            <ProjectCard
+              key={project._id}
+              _id={project._id}
+              title={project.title}
+              description={project.description}
+              technologies={project.technologies}
+              slug={project.slug}
+            />
+          ))}
+        {loading &&
+          skeletons.map((skeleton) => (
+            <ProjectCardSkeleton key={skeleton}></ProjectCardSkeleton>
+          ))}
+      </SimpleGrid>
+    );
+  }
 };
 
 export default ProjectList;
