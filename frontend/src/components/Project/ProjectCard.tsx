@@ -11,13 +11,16 @@ const ProjectCard = (props: Project) => {
     <Center w="100%">
       <Box
         w="100%"
+        h="100%"
         rounded={"sm"}
         overflow={"hidden"}
         bg="white"
         border={"1px"}
         borderColor="black"
+        display={"flex"}
+        flexDirection={"column"}
       >
-        <Box p={4}>
+        <Box p={4} flexGrow={1}>
           <TechnologyStack technologies={props.technologies} />
 
           <Heading mb={4} color={"black"} fontSize={"2xl"} noOfLines={1}>

@@ -16,4 +16,12 @@ export const technologieValues = [
         name: "Node.js",
         value: "node-js",
     },
+    {
+        name: "MongoDB",
+        value: "mongodb",
+    },
+    {
+        name: "SQL",
+        value: "sql",
+    },
 ];

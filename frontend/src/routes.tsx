@@ -1,9 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "./pages/Layout.tsx";
 import ErrorPage from "./pages/ErrorPage.tsx";
-import ProjectsPage from "./pages/ProjectsPage.tsx";
-import AddProject from "./pages/AddProject.tsx";
-import BugsPage from "./pages/BugsPage.tsx";
+import ProjectPage from "./pages/Project/ProjectPage.tsx";
+import ProjectsPage from "./pages/Project/ProjectsPage.tsx";
+import AddProject from "./pages/Project/AddProject.tsx";
+import BugsPage from "./pages/Bugs/BugsPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: "/projects/add-project",
         element: <AddProject />,
+      },
+      {
+        path: "/projects/:slug",
+        element: <ProjectPage />,
       },
     ],
   },

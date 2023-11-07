@@ -6,10 +6,10 @@ import {
   getBugById,
   getBugs,
   addBug,
-  updateBug,
+  updateBug,deleteBug
 } from "../controllers/bugController.js";
 
 router.route("/").get(getBugs).post(addBug);
-router.route("/:id").get(getBugById).patch(updateBug);
+router.route("/:id").get(getBugById).patch(updateBug).delete(deleteBug);
 
 export default router;

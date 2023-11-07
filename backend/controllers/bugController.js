@@ -49,7 +49,6 @@ export const updateBug = async (req, res) => {
         bug,
       },
     });
-    
   } catch (error) {
     res.status(404).json({
       status: "failed",
@@ -80,6 +79,25 @@ export const addBug = async (req, res) => {
     res.status(404).json({
       status: "failed",
       message: error.message,
+    });
+  }
+};
+
+export const deleteBug = async (req, res) => {
+  //Yor code here
+  try {
+    await Bug.deleteOne({
+      _id: req.params.id,
+    });
+
+    res.status(200).json({
+      status: "success",
+      message: `The bug with id: ${req.params.id}, was deleted succesfully`,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "fail",
+      message: "cannot delete bug",
     });
   }
 };

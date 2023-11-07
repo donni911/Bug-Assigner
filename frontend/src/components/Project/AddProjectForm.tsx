@@ -1,11 +1,8 @@
 import { Formik, Field, Form, FieldArray } from "formik";
 import * as Yup from "yup";
 
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-
-import { addProject } from "../../store/slices/projects";
 import { technologieValues } from "../../data/technologies";
+import { useAddProjectMutation } from "../../store/api/injections/projects.ts";
 
 import {
   FormControl,
@@ -21,7 +18,8 @@ import {
   HStack,
   useToast,
 } from "@chakra-ui/react";
-import { RootState } from "../../store/store";
+
+import { useNavigate } from "react-router-dom";
 
 type formValues = {
   title: string;
@@ -29,14 +27,10 @@ type formValues = {
   technologies: string[];
 };
 
-const ModalProject = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+const AddProjectForm = () => {
   const toast = useToast();
-
-  const { loading, errors } = useSelector(
-    (state: RootState) => state.entities.projects
-  );
+  const navigate = useNavigate();
+  const [addProject, { isLoading, error }] = useAddProjectMutation();
 
   const formValues: formValues = {
     title: "Project",
@@ -58,11 +52,9 @@ const ModalProject = () => {
       .required("Choose at least one technologie"),
   });
 
-  const submitForm = async (values: formValues) => {
+  const submitForm = (values: formValues) => {
     try {
-      await dispatch(addProject(values));
-
-      if (errors) {
+      if (error) {
         toast({
           title: `Something went wrong.`,
           status: "error",
@@ -70,6 +62,7 @@ const ModalProject = () => {
           isClosable: true,
         });
       } else {
+        addProject(values);
         toast({
           title: `Project ${values.title} was created.`,
           status: "success",
@@ -171,7 +164,7 @@ const ModalProject = () => {
               type="submit"
               variant={"primary"}
               w={"full"}
-              isLoading={loading}
+              isLoading={isLoading}
               loadingText="Submitting"
             >
               Submit
@@ -183,4 +176,4 @@ const ModalProject = () => {
   );
 };
 
-export default ModalProject;
+export default AddProjectForm;

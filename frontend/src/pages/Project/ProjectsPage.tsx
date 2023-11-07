@@ -7,7 +7,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import ProjectList from "../components/Project/ProjectList";
+import ProjectList from "../../components/Project/ProjectList";
 import { Link } from "react-router-dom";
 
 const ProjectsPage = () => {
