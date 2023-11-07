@@ -31,3 +31,17 @@ export const technologiesValues = [
         value: "sql",
     },
 ];
+
+
+export const formatTechnologies = (unformattedTechnologies: string[]) => {
+    const tech: Technologie[] = [];
+
+    unformattedTechnologies.forEach((techno: string) => {
+        technologiesValues.find((el) => {
+            if (el.value === techno) {
+                tech.push(el);
+            }
+        });
+    })
+    return tech
+}

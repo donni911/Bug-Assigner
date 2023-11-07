@@ -3,7 +3,6 @@ import { baseApi } from '../index.ts'
 
 type ResponseData = Project[] | [] | undefined;
 
-
 const extendedProjectsApi = baseApi.enhanceEndpoints({
     addTagTypes: ['projects'],
 }).injectEndpoints({

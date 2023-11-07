@@ -42,7 +42,11 @@ const ProjectInfo = ({ project }: Props) => {
             {project?.title}
           </Heading>
           <Menu>
-            <MenuButton flexShrink={0} as={Button} rightIcon={<ChevronDownIcon w={6} h={6} />}>
+            <MenuButton
+              flexShrink={0}
+              as={Button}
+              rightIcon={<ChevronDownIcon w={6} h={6} />}
+            >
               Actions
             </MenuButton>
             <MenuList>
@@ -73,7 +77,7 @@ const ProjectInfo = ({ project }: Props) => {
           alignItems={"center"}
           mb={2}
         >
-          <Heading as="h3" size="sm" flexShrink={0}>
+          <Heading w={"50%"} as="h3" size="sm" flexShrink={0}>
             Technologies used in this project:
           </Heading>
           <Box flexGrow={0}>
