@@ -16,7 +16,7 @@ export const getProjects = async (req, res) => {
 
 export const getProjectsBySlug = async (req, res) => {
   try {
-    const project = await Project.find({ slug: req.params.slug });
+    const project = await Project.findOne({ slug: req.params.slug });
 
     if (!project) {
       throw new Error("project not found");

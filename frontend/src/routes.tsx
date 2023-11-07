@@ -3,7 +3,7 @@ import Layout from "./pages/Layout.tsx";
 import ErrorPage from "./pages/ErrorPage.tsx";
 import ProjectPage from "./pages/Project/ProjectPage.tsx";
 import ProjectsPage from "./pages/Project/ProjectsPage.tsx";
-import AddProject from "./pages/Project/AddProject.tsx";
+import OperateProject from "./components/Project/components/OperateProject.tsx";
 import BugsPage from "./pages/Bugs/BugsPage.tsx";
 
 const router = createBrowserRouter([
@@ -22,7 +22,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/projects/add-project",
-        element: <AddProject />,
+        element: <OperateProject />,
+      },
+      {
+        path: "/projects/update-project/:slug",
+        element: <OperateProject updateMode={true} />,
       },
       {
         path: "/projects/:slug",

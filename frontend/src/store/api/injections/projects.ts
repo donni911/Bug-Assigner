@@ -12,8 +12,9 @@ const extendedProjectsApi = baseApi.enhanceEndpoints({
             query: () => "/projects",
             providesTags: ['projects']
         }),
-        getProject: builder.query<ResponseData, string>({
+        getProject: builder.query<Project, string | undefined>({
             query: (projectSlug) => `/projects/${projectSlug}`,
+            providesTags: ['projects']
         }),
         addProject: builder.mutation({
             query: project => ({
@@ -28,16 +29,19 @@ const extendedProjectsApi = baseApi.enhanceEndpoints({
                 url: `/projects/${project.slug}`,
                 method: "PATCH",
                 body: project
-            })
+            }),
+            invalidatesTags: ['projects']
         }),
         deleteProject: builder.mutation({
             query: (id) => ({
                 url: `/projects/${id}`,
                 method: "DELETE",
-            })
+            }),
+            invalidatesTags: ['projects']
+
         })
     }),
     overrideExisting: false,
 })
 
-export const { useGetProjectsQuery, useAddProjectMutation, useUpdateProjectMutation, useGetProjectQuery } = extendedProjectsApi;
+export const { useGetProjectsQuery, useAddProjectMutation, useUpdateProjectMutation, useGetProjectQuery, useDeleteProjectMutation } = extendedProjectsApi;

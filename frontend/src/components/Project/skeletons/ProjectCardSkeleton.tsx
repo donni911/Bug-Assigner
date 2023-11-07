@@ -1,6 +1,6 @@
 import { Card, Skeleton, HStack } from "@chakra-ui/react";
 
-const GameCardSkeleton = () => {
+const ProjectCardSkeleton = () => {
   return (
     <Card borderRadius={"sm"} minHeight={"250px"}>
       <HStack p={4}>
@@ -32,4 +32,4 @@ const GameCardSkeleton = () => {
   );
 };
 
-export default GameCardSkeleton;
+export default ProjectCardSkeleton;

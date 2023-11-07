@@ -1,7 +1,7 @@
 import { Formik, Field, Form, FieldArray } from "formik";
 
-import { Technologie, technologiesValues } from "../../data/technologies";
-import { useAddProjectMutation } from "../../store/api/injections/projects.ts";
+import { technologiesValues } from "../../data/technologies";
+import { useUpdateProjectMutation } from "../../store/api/injections/projects.ts";
 
 import {
   FormControl,
@@ -19,21 +19,27 @@ import {
 } from "@chakra-ui/react";
 
 import { useNavigate } from "react-router-dom";
+import { Project } from "../../types/Project.ts";
 import { ProjectSchema, formValues } from "./helpers/form.ts";
+import { object } from "yup";
 
-const AddProjectForm = () => {
+type Props = {
+  project: Project;
+};
+const AddProjectForm = ({ project }: Props) => {
   const toast = useToast();
   const navigate = useNavigate();
-  const [addProject, { isLoading, error }] = useAddProjectMutation();
+  const [updateProject, { isLoading, error }] = useUpdateProjectMutation();
 
   const formValues: formValues = {
-    title: "title  o k ok o k o k ok o k o k o k ",
-    description:
-      "title  o k ok o k o k ok o k o k o k title  o k ok o k o k ok o k o k o k title  o k ok o k o k ok o k o k o k title  o k ok o k o k ok o k o k o k title  o k ok o k o k ok o k o k o k ",
-    technologies: [],
+    title: project.title,
+    description: project.description,
+    technologies: project.technologies.map((el) => el.value),
   };
 
   const submitForm = (values: formValues) => {
+    console.log(values);
+
     try {
       if (error) {
         toast({
@@ -46,23 +52,32 @@ const AddProjectForm = () => {
         const tech: Technologie[] = [];
 
         values.technologies.forEach((techno) => {
-          technologiesValues.find((el) => {
-            if (el.value === techno) {
-              tech.push(el);
-            }
-          });
+          if (typeof techno == "object") {
+            technologiesValues.find((el) => {
+              if (el.value === techno.value) {
+                tech.push(el);
+              }
+            });
+          } else {
+            technologiesValues.find((el) => {
+              if (el.value === techno) {
+                tech.push(el);
+              }
+            });
+          }
         });
 
-        values.technologies = tech;        
+        values.technologies = tech;
+        console.log(values.technologies);
 
-        addProject(values);
+        updateProject({ slug: project.slug, ...values });
         toast({
-          title: `Project ${values.title} was created.`,
+          title: `Project ${values.title} was updated.`,
           status: "success",
           duration: 5000,
           isClosable: true,
         });
-        navigate("/");
+        navigate(`/projects/${project.slug}`);
       }
     } catch (error) {
       console.log(error);
@@ -72,7 +87,7 @@ const AddProjectForm = () => {
   return (
     <Box mx={"auto"} maxWidth={"900px"}>
       <Heading mb={4} textAlign={"center"}>
-        Add a new Project
+        Update {project.title}
       </Heading>
       <Formik
         validationSchema={ProjectSchema}
@@ -139,6 +154,9 @@ const AddProjectForm = () => {
                             name="technologies"
                             type="checkbox"
                             value={technologie.value}
+                            defaultChecked={formValues.technologies.some((el) =>
+                              technologie.value === el ? true : false
+                            )}
                           ></Field>
                           <Text>{technologie.name}</Text>
                         </FormLabel>

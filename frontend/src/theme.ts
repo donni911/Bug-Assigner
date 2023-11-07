@@ -1,9 +1,12 @@
 // theme.ts (tsx file with usage of StyleFunctions, see 4.)
 import { extendTheme } from '@chakra-ui/react'
 
-
-
 const theme = extendTheme({
+    fonts: {
+        heading: `'Prompt', sans-serif`,
+        body: `'Raleway', sans-serif`,
+    },
+
     components: {
         Button: {
             // 1. We can update the base styles

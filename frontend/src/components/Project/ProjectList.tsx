@@ -5,7 +5,7 @@ import { Project } from "../../types/Project.ts";
 import { useGetProjectsQuery } from "../../store/api/injections/projects.ts";
 
 import ProjectCard from "./ProjectCard";
-import ProjectCardSkeleton from "./components/ProjectCardSkeleton";
+import ProjectCardSkeleton from "./skeletons/ProjectCardSkeleton.tsx";
 
 const ProjectList = () => {
   const { data: projects, isFetching } = useGetProjectsQuery();

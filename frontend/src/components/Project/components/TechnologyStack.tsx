@@ -1,16 +1,17 @@
 import { Box, HStack, Text } from "@chakra-ui/react";
+import { Technologie } from "../../../data/technologies";
 
 type Props = {
-  technologies: string[];
+  technologies: Technologie[] | undefined;
 };
 
 const TechnologyStack = ({ technologies }: Props) => {
   return (
-    <HStack gap={2} mb={2} flexWrap="wrap">
-      {technologies.length &&
-        technologies.map((el) => (
+    <HStack gap={2} flexWrap="wrap">
+      {technologies?.length &&
+        technologies?.map((el) => (
           <Box
-            key={el}
+            key={el.value}
             bg="black"
             display={"inline-block"}
             px={2}
@@ -18,7 +19,7 @@ const TechnologyStack = ({ technologies }: Props) => {
             color="white"
           >
             <Text fontSize={"xs"} fontWeight="medium">
-              {el}
+              {el.name}
             </Text>
           </Box>
         ))}

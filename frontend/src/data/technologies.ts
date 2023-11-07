@@ -1,5 +1,11 @@
 // ASK: where to save such data?
-export const technologieValues = [
+
+export type Technologie = {
+    name: string,
+    value: string
+}
+
+export const technologiesValues = [
     {
         name: "React",
         value: "react",

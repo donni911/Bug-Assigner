@@ -21,7 +21,9 @@ const ProjectCard = (props: Project) => {
         flexDirection={"column"}
       >
         <Box p={4} flexGrow={1}>
-          <TechnologyStack technologies={props.technologies} />
+          <Box mb={2}>
+            <TechnologyStack technologies={props.technologies} />
+          </Box>
 
           <Heading mb={4} color={"black"} fontSize={"2xl"} noOfLines={1}>
             {props.title}
