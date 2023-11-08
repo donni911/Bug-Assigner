@@ -19,15 +19,12 @@ import {
 import { Project } from "../../../types/Project";
 import { Link } from "react-router-dom";
 
-type Props = {
-  project: Project;
-};
-
-const ProjectInfo = ({ project }: Props) => {
+const ProjectInfo = (props: { project: Project }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <Box
+    
       w="100%"
       h="100%"
       rounded={"sm"}
@@ -39,7 +36,7 @@ const ProjectInfo = ({ project }: Props) => {
       <VStack alignItems={"start"} p={4}>
         <HStack mb={4} w={"100%"} gap={6} justifyContent={"space-between"}>
           <Heading as="h2" size="2xl" fontSize="5xl">
-            {project?.title}
+            {props.project?.title}
           </Heading>
           <Menu>
             <MenuButton
@@ -52,7 +49,7 @@ const ProjectInfo = ({ project }: Props) => {
             <MenuList>
               <MenuItem
                 as={Link}
-                to={`/projects/update-project/${project.slug}`}
+                to={`/projects/update-project/${props.project.slug}`}
                 icon={<EditIcon />}
               >
                 Update
@@ -62,7 +59,7 @@ const ProjectInfo = ({ project }: Props) => {
                 <DeleteProject
                   onClose={onClose}
                   isOpen={isOpen}
-                  project={project}
+                  project={props.project}
                 />
               </MenuItem>
             </MenuList>
@@ -81,14 +78,14 @@ const ProjectInfo = ({ project }: Props) => {
             Technologies used in this project:
           </Heading>
           <Box flexGrow={0}>
-            <TechnologyStack technologies={project?.technologies} />
+            <TechnologyStack technologies={props.project?.technologies} />
           </Box>
         </Box>
         <Box>
           <Heading as="h3" size="sm" flexShrink={0} mb={"2"}>
             About this project
           </Heading>
-          <Text>{project?.description}</Text>
+          <Text>{props.project?.description}</Text>
         </Box>
       </VStack>
     </Box>

@@ -1,15 +1,19 @@
 import { Box, HStack, Text } from "@chakra-ui/react";
-import { Technologie } from "../../../data/technologies";
+import { Technologie, technologiesValues } from "../../../data/technologies";
 
 type Props = {
-  technologies: Technologie[] | undefined;
+  technologies: Technologie[] | string | undefined;
 };
 
 const TechnologyStack = ({ technologies }: Props) => {
+  const choosedTechnologies = technologiesValues.filter((el) =>
+    technologies?.includes(el.value)
+  );
+
   return (
     <HStack gap={2} flexWrap="wrap">
-      {technologies?.length &&
-        technologies?.map((el) => (
+      {choosedTechnologies?.length &&
+        choosedTechnologies?.map((el) => (
           <Box
             key={el.value}
             bg="black"

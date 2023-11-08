@@ -1,25 +1,28 @@
-import { formatTechnologies } from "../../data/technologies";
 import { useAddProjectMutation } from "../../store/api/injections/projects.ts";
 
 import { Box, Heading, useToast } from "@chakra-ui/react";
 
 import { useNavigate } from "react-router-dom";
-import { formValues } from "./helpers/form.ts";
+
 import ProjectForm from "./components/ProjectForm.tsx";
+import { Form, FormWrap, useForm } from "@savks/react-forms";
 
 const AddProjectForm = () => {
   const toast = useToast();
   const navigate = useNavigate();
   const [addProject, { isLoading, error }] = useAddProjectMutation();
 
-  const formValues: formValues = {
+  const form = useForm({
     title: "",
     description: "",
     technologies: [],
-  };
+  });
 
-  const submitForm = (values: formValues) => {
+  const submitForm = (form: Form) => {
     try {
+      addProject(form);
+
+      // TO SOLVE !!!
       if (error) {
         toast({
           title: `Something went wrong.`,
@@ -28,19 +31,15 @@ const AddProjectForm = () => {
           isClosable: true,
         });
       } else {
-        values.technologies = formatTechnologies(values?.technologies);
-        addProject(values);
-        toast({
-          title: `Project ${values.title} was created.`,
-          status: "success",
-          duration: 5000,
-          isClosable: true,
-        });
-        navigate("/");
+        // toast({
+        //   title: `Project ${form?.data.title} was created.`,
+        //   status: "success",
+        //   duration: 5000,
+        //   isClosable: true,
+        // });
+        // navigate("/");
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (err) {}
   };
 
   return (
@@ -48,11 +47,9 @@ const AddProjectForm = () => {
       <Heading mb={4} textAlign={"center"}>
         Add a new Project
       </Heading>
-      <ProjectForm
-        initialValues={formValues}
-        isLoading={isLoading}
-        onSubmitForm={submitForm}
-      />
+      <FormWrap form={form} onSubmit={submitForm}>
+        <ProjectForm isLoading={isLoading} />
+      </FormWrap>
     </Box>
   );
 };

@@ -1,8 +1,8 @@
 // ASK: where to save such data?
 
 export type Technologie = {
-    name: string,
-    value: string
+    name?: string,
+    value?: string
 }
 
 export const technologiesValues = [

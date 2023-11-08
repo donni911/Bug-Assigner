@@ -2,7 +2,6 @@ import { Box, Heading, Text, Flex, Center, HStack } from "@chakra-ui/react";
 import { BsArrowUpRight } from "react-icons/bs";
 import { Link } from "react-router-dom";
 
-// import ShortInfo from "./components/ShortInfo";
 import TechnologyStack from "./components/TechnologyStack";
 import { Project } from "../../types/Project.ts";
 

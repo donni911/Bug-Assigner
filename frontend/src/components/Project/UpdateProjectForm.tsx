@@ -1,68 +1,57 @@
-import { formatTechnologies } from "../../data/technologies";
 import { useUpdateProjectMutation } from "../../store/api/injections/projects.ts";
 
 import { Box, Heading, useToast } from "@chakra-ui/react";
 
 import { useNavigate } from "react-router-dom";
 import { Project } from "../../types/Project.ts";
-import { formValues } from "./helpers/form.ts";
+
 import ProjectForm from "./components/ProjectForm.tsx";
+import { Form, FormWrap, useForm } from "@savks/react-forms";
 
-type Props = {
-  project: Project;
-};
+const UpdateProjectForm = (props: { project: Project }) => {
+  const form = useForm({
+    title: props.project.title,
+    description: props.project.description,
+    technologies: props.project.technologies,
+  });
 
-const AddProjectForm = ({ project }: Props) => {
   const toast = useToast();
   const navigate = useNavigate();
   const [updateProject, { isLoading, error }] = useUpdateProjectMutation();
 
-  const formValues: formValues = {
-    title: project.title,
-    description: project.description,
-    technologies: project?.technologies?.map((el) => el?.value),
-  };
+  const submitForm = (form: Form) => {
+    updateProject({ slug: props.project.slug, form });
 
-  const submitForm = (values: formValues) => {
-    try {
-      if (error) {
-        toast({
-          title: `Something went wrong.`,
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-        });
-      } else {
-        values.technologies = formatTechnologies(values?.technologies);
+    // TO SOLVE!!!
+    if (error) {
+      toast({
+        title: `Something went wrong.`,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    } else {
+      toast({
+        title: `Project ${props.project.title} was updated.`,
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
 
-        updateProject({ slug: project.slug, ...values });
-
-        toast({
-          title: `Project ${values.title} was updated.`,
-          status: "success",
-          duration: 5000,
-          isClosable: true,
-        });
-
-        navigate(`/projects/${project.slug}`);
-      }
-    } catch (error) {
-      console.log(error);
+      navigate(`/projects/${props.project.slug}`);
     }
   };
 
   return (
     <Box mx={"auto"} maxWidth={"900px"}>
       <Heading mb={4} textAlign={"center"}>
-        Update {project.title}
+        Update {props.project.title}
       </Heading>
-      <ProjectForm
-        initialValues={formValues}
-        isLoading={isLoading}
-        onSubmitForm={submitForm}
-      />
+      <FormWrap form={form} onSubmit={submitForm}>
+        <ProjectForm isLoading={isLoading} />
+      </FormWrap>
     </Box>
   );
 };
 
-export default AddProjectForm;
+export default UpdateProjectForm;

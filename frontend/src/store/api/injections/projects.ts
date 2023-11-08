@@ -1,3 +1,4 @@
+import { Form } from '@savks/react-forms';
 import { Project } from '../../../types/Project.ts';
 import { baseApi } from '../index.ts'
 
@@ -8,26 +9,31 @@ const extendedProjectsApi = baseApi.enhanceEndpoints({
 }).injectEndpoints({
     endpoints: (builder) => ({
         getProjects: builder.query<ResponseData, void>({
-            query: () => "/projects",
+            query: () => ({ url: '/projects', method: 'get' }),
             providesTags: ['projects']
         }),
-        getProject: builder.query<Project, string | undefined>({
-            query: (projectSlug) => `/projects/${projectSlug}`,
+        getProject: builder.query<Project, {
+            slug: string
+        }>({
+            query: (slug) => ({ url: `/projects/${slug}`, method: 'get' }),
             providesTags: ['projects']
         }),
         addProject: builder.mutation({
             query: project => ({
                 url: '/projects',
                 method: 'POST',
-                body: project
+                data: project
             }),
             invalidatesTags: ['projects']
         }),
-        updateProject: builder.mutation({
-            query: project => ({
-                url: `/projects/${project.slug}`,
+        updateProject: builder.mutation<void, {
+            slug?: string | undefined,
+            form: Form
+        }>({
+            query: ({ slug, form }) => ({
+                url: `/projects/${slug}`,
                 method: "PATCH",
-                body: project
+                data: form
             }),
             invalidatesTags: ['projects']
         }),

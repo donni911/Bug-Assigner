@@ -8,11 +8,11 @@ import ProjectCard from "./ProjectCard";
 import ProjectCardSkeleton from "./skeletons/ProjectCardSkeleton.tsx";
 
 const ProjectList = () => {
-  const { data: projects, isFetching } = useGetProjectsQuery();
+  const { data: projects, isFetching, isLoading } = useGetProjectsQuery();
 
   const skeletons = [1, 2, 3, 4];
   if (!isFetching && !projects?.length) {
-    return <Text>No Projects yet, want to add some?</Text>;
+    return <Text>No Projects yet, want to add some? </Text>;
   } else {
     return (
       <SimpleGrid w="100%" columns={{ base: 1, sm: 2, lg: 3, xl: 4 }} gap={6}>
@@ -29,6 +29,7 @@ const ProjectList = () => {
             />
           ))}
         {isFetching &&
+          isLoading &&
           skeletons.map((skeleton) => (
             <ProjectCardSkeleton key={skeleton}></ProjectCardSkeleton>
           ))}

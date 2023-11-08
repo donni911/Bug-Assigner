@@ -5,7 +5,7 @@ export const getProjects = async (req, res) => {
   try {
     const projects = await Project.find();
 
-    res.status(200).json(projects);
+    res.status(200).json({ data: projects });
   } catch (error) {
     res.status(404).json({
       status: "failed",
@@ -22,7 +22,7 @@ export const getProjectsBySlug = async (req, res) => {
       throw new Error("project not found");
     }
 
-    res.status(200).json(project);
+    res.status(200).json({ data: project });
   } catch (error) {
     res.status(404).json({
       status: "failed",
@@ -41,7 +41,7 @@ export const updateProject = async (req, res) => {
       }
     );
 
-    res.status(200).json(project);
+    res.status(200).json({ data: { project } });
   } catch (error) {
     res.status(404).json({
       status: "failed",
@@ -52,14 +52,6 @@ export const updateProject = async (req, res) => {
 
 export const addProject = async (req, res) => {
   try {
-    if (!req.body.description) {
-      throw new Error("Project should contain description!");
-    }
-
-    if (!req.body.title) {
-      throw new Error("Project should contain title!");
-    }
-
     const slug = await slugStr(req.body.title);
 
     const project = new Project({

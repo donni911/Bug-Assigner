@@ -6,20 +6,18 @@ import ProjectInfoSkeleton from "./Skeletons/ProjectInfoSkeleton";
 
 const ProjectPage = () => {
   const { slug } = useParams();
-  const { data: project, isLoading } = useGetProjectQuery(slug);
 
-  if (project) {
-    return (
-      <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={10}>
-        {isLoading ? (
-          <ProjectInfoSkeleton />
-        ) : (
-          <ProjectInfo project={project} />
-        )}
+  const { data: project, isFetching } = useGetProjectQuery(slug);
 
-      </SimpleGrid>
-    );
-  }
+  return (
+    <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={10}>
+      {!isFetching ? (
+        <ProjectInfo project={project} />
+      ) : (
+        <ProjectInfoSkeleton />
+      )}
+    </SimpleGrid>
+  );
 };
 
 export default ProjectPage;
