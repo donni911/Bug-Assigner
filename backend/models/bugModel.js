@@ -14,25 +14,21 @@ const bugSchema = new Schema(
       trim: true,
     },
 
-    // role: {
-    //   enum: {
-    //     values: ["frontend", "backend", "designer", "devops", "project-manager"],
-    //     message: "{VALUE} is not supported",
-    //   },
-    // },
+    priority: {
+      type: String,
+      enum: ["low", "medium", "high"],
+      default: "low",
+    },
 
     resolved: {
       type: Boolean,
+      default: false,
     },
 
     projectId: {
       type: Schema.Types.ObjectId,
       ref: "Project",
     },
-
-    // userId: {
-    //   type: Number,
-    // },
   },
   {
     versionKey: false,

@@ -6,10 +6,11 @@ type ResponseData = Bug[] | [] | undefined;
 const extendedBugsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getBugs: builder.query<ResponseData, void>({
-      query: () => "/bugs",
+      query: () => ({ url: "/bugs", method: "GET" }),
     }),
     getBug: builder.query<ResponseData, string>({
-      query: (id) => `/projects/${id}`,
+      query: (id) => (
+        { url: `/projects/${id}`, method: "GET" }),
     }),
     addBug: builder.mutation({
       query: bug => ({
@@ -22,7 +23,7 @@ const extendedBugsApi = baseApi.injectEndpoints({
       query: bug => ({
         url: `/bugs/${bug.id}`,
         method: "PATCH",
-        body: bug
+        data: bug
       })
     }),
     deleteBug: builder.mutation({

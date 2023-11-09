@@ -17,6 +17,7 @@ const ProjectList = () => {
     return (
       <SimpleGrid w="100%" columns={{ base: 1, sm: 2, lg: 3, xl: 4 }} gap={6}>
         {!isFetching &&
+          !isLoading &&
           projects &&
           projects?.map((project: Project) => (
             <ProjectCard
@@ -28,8 +29,8 @@ const ProjectList = () => {
               slug={project.slug}
             />
           ))}
-        {isFetching &&
-          isLoading &&
+        {isLoading &&
+          isFetching &&
           skeletons.map((skeleton) => (
             <ProjectCardSkeleton key={skeleton}></ProjectCardSkeleton>
           ))}

@@ -1,18 +1,8 @@
 import Project from "../models/projectModel.js";
+import Bug from "../models/bugModel.js";
+
 import { slugStr } from "../utils/slug.js";
 
-import { z } from "zod";
-
-export const projectSchema = z.object({
-  title: z
-    .string()
-    .min(5, { message: "Must be 5 or more characters long" })
-    .max(30, { message: "Must be maximum of 30 characters long." }),
-  description: z
-    .string()
-    .min(30, { message: "Must be 30 or more characters long" }),
-  technologies:  z.string().array().min(2),
-});
 
 export const getProjects = async (req, res) => {
   try {
@@ -99,6 +89,20 @@ export const deleteProject = async (req, res) => {
     res.status(500).json({
       status: "fail",
       message: "cannot delete product",
+    });
+  }
+};
+
+export const getProjectBugsById = async (req, res) => {
+  try {
+    const projectBugs = await Bug.find({ projectId: req.params.id });
+
+    res.status(200).json({ data: projectBugs });
+    
+  } catch (error) {
+    res.status(404).json({
+      status: "failed",
+      message: "Cannot fetch project bugs",
     });
   }
 };

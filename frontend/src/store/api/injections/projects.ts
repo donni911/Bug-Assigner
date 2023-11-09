@@ -43,10 +43,16 @@ const extendedProjectsApi = baseApi.enhanceEndpoints({
                 method: "DELETE",
             }),
             invalidatesTags: ['projects']
-
+        }),
+        getProjectBugsById: builder.query({
+            query: (id) => ({
+                url: `projects/${id}/bugs`,
+                method: 'GET',
+            }),
+            providesTags: ['projects']
         })
     }),
     overrideExisting: false,
 })
 
-export const { useGetProjectsQuery, useAddProjectMutation, useUpdateProjectMutation, useGetProjectQuery, useDeleteProjectMutation } = extendedProjectsApi;
+export const { useGetProjectsQuery, useAddProjectMutation, useUpdateProjectMutation, useGetProjectQuery, useDeleteProjectMutation, useGetProjectBugsByIdQuery } = extendedProjectsApi;

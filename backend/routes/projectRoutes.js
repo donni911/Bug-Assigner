@@ -1,5 +1,5 @@
 import express from "express";
-import { validate } from "../middleware/validation.js";
+import { validate, projectSchema } from "../middleware/validationProject.js";
 const router = express.Router();
 
 import {
@@ -8,7 +8,7 @@ import {
   getProjectsBySlug,
   updateProject,
   deleteProject,
-  projectSchema,
+  getProjectBugsById,
 } from "../controllers/projectController.js";
 
 router.route("/").get(getProjects).post(validate(projectSchema), addProject);
@@ -17,5 +17,7 @@ router
   .get(getProjectsBySlug)
   .patch(validate(projectSchema), updateProject);
 router.route("/:id").delete(deleteProject);
+
+router.route("/:id/bugs").get(getProjectBugsById);
 
 export default router;

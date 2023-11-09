@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 
 import { ChakraProvider } from "@chakra-ui/react";
 import theme from "./theme.ts";
+import './App.css'
 
 import configureStore from "./store/store.js";
 import { Provider } from "react-redux";

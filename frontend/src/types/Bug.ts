@@ -4,5 +4,5 @@ export type Bug = {
     description: string,
     resolved?: boolean,
     projectId?: string,
-    userId?: string
+    priority: string
 }

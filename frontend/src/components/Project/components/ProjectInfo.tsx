@@ -25,7 +25,7 @@ const ProjectInfo = (props: { project: Project }) => {
   return (
     <Box
       w="100%"
-      h="100%"
+      h="min-content"
       rounded={"sm"}
       overflow={"hidden"}
       bg="white"
@@ -34,7 +34,7 @@ const ProjectInfo = (props: { project: Project }) => {
     >
       <VStack alignItems={"start"} p={4}>
         <HStack mb={4} w={"100%"} gap={6} justifyContent={"space-between"}>
-          <Heading as="h2" size="2xl" fontSize="5xl">
+          <Heading as="h2" size="2xl" >
             {props.project?.title}
           </Heading>
           <Menu>
