@@ -24,7 +24,6 @@ const ProjectInfo = (props: { project: Project }) => {
 
   return (
     <Box
-    
       w="100%"
       h="100%"
       rounded={"sm"}

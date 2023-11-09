@@ -1,45 +1,38 @@
 import { useAddProjectMutation } from "../../store/api/injections/projects.ts";
 
-import { Box, Heading, useToast } from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react";
 
 import { useNavigate } from "react-router-dom";
 
 import ProjectForm from "./components/ProjectForm.tsx";
 import { Form, FormWrap, useForm } from "@savks/react-forms";
+import { useEffect } from "react";
+import { showErrorMessage, showSuccessMessage } from "./helpers/toast.ts";
+import { useToast } from "@chakra-ui/react";
 
 const AddProjectForm = () => {
-  const toast = useToast();
-  const navigate = useNavigate();
-  const [addProject, { isLoading, error }] = useAddProjectMutation();
-
   const form = useForm({
     title: "",
     description: "",
     technologies: [],
   });
 
-  const submitForm = (form: Form) => {
-    try {
-      addProject(form);
+  const toast = useToast();
+  const navigate = useNavigate();
+  const [addProject, { isLoading, isError, isSuccess }] =
+    useAddProjectMutation();
 
-      // TO SOLVE !!!
-      if (error) {
-        toast({
-          title: `Something went wrong.`,
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-        });
-      } else {
-        // toast({
-        //   title: `Project ${form?.data.title} was created.`,
-        //   status: "success",
-        //   duration: 5000,
-        //   isClosable: true,
-        // });
-        // navigate("/");
-      }
-    } catch (err) {}
+  useEffect(() => {
+    if (isError) {
+      showErrorMessage(toast);
+    } else if (isSuccess) {
+      showSuccessMessage(toast, `Project ${form?.data.title} was created.`);
+      navigate("/");
+    }
+  }, [isError, isSuccess]);
+
+  const submitForm = (form: Form) => {
+    addProject(form);
   };
 
   return (

@@ -73,24 +73,22 @@ const resolveFromServer = async (baseUrl: string | undefined, {
     } catch (httpError) {
         const err = httpError as any;
 
-        if (isForm && err.status === 422) {
-            data.setErrors(err.data.errors);
+        if (isForm && err.response.status === 422) {
+            data.setErrors(err.response.data.errors);
         }
 
         return {
             error: {
-                status: err.status,
-                message: err.statusText,
+                status: err.response.status,
+                message: err.message,
                 meta: {
                     response: {
-                        data: err.data,
-                        statusCode: err.status,
-                        original: err.response
+                        data: err.response.data,
+                        statusCode: err.response.status,
                     }
                 }
             }
         };
-
     } finally {
         if (isForm) {
             data.removeProcessingMark();

@@ -7,6 +7,8 @@ import { Project } from "../../types/Project.ts";
 
 import ProjectForm from "./components/ProjectForm.tsx";
 import { Form, FormWrap, useForm } from "@savks/react-forms";
+import { showErrorMessage, showSuccessMessage } from "./helpers/toast.ts";
+import { useEffect } from "react";
 
 const UpdateProjectForm = (props: { project: Project }) => {
   const form = useForm({
@@ -17,29 +19,20 @@ const UpdateProjectForm = (props: { project: Project }) => {
 
   const toast = useToast();
   const navigate = useNavigate();
-  const [updateProject, { isLoading, error }] = useUpdateProjectMutation();
+  const [updateProject, { isLoading, isError, isSuccess }] =
+    useUpdateProjectMutation();
+
+  useEffect(() => {
+    if (isError) {
+      showErrorMessage(toast);
+    } else if (isSuccess) {
+      showSuccessMessage(toast, `Project ${form?.data.title} was updated.`);
+      navigate(`/projects/${props.project.slug}`);
+    }
+  }, [isError, isSuccess]);
 
   const submitForm = (form: Form) => {
     updateProject({ slug: props.project.slug, form });
-
-    // TO SOLVE!!!
-    if (error) {
-      toast({
-        title: `Something went wrong.`,
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
-    } else {
-      toast({
-        title: `Project ${props.project.title} was updated.`,
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
-
-      navigate(`/projects/${props.project.slug}`);
-    }
   };
 
   return (

@@ -1,6 +1,5 @@
 import express from "express";
-import { projectSchema, validate } from "../helpers/validation.js";
-
+import { validate } from "../middleware/validation.js";
 const router = express.Router();
 
 import {
@@ -9,10 +8,14 @@ import {
   getProjectsBySlug,
   updateProject,
   deleteProject,
+  projectSchema,
 } from "../controllers/projectController.js";
 
 router.route("/").get(getProjects).post(validate(projectSchema), addProject);
-router.route("/:slug").get(getProjectsBySlug).patch(updateProject);
+router
+  .route("/:slug")
+  .get(getProjectsBySlug)
+  .patch(validate(projectSchema), updateProject);
 router.route("/:id").delete(deleteProject);
 
 export default router;

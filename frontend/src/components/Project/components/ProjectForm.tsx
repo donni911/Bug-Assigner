@@ -22,9 +22,9 @@ const ProjectForm = (props: { isLoading: boolean }) => {
     <SimpleForm>
       <StringFieldWrap path="title">
         {({ value, error, change }) => (
-          <FormControl mb="4">
+          <FormControl mb="4" isInvalid={!!error}>
             <FormLabel htmlFor="title" fontWeight={"normal"}>
-              Name of your Project
+              Name of your Projects
             </FormLabel>
             <Input
               id="title"
@@ -33,16 +33,16 @@ const ProjectForm = (props: { isLoading: boolean }) => {
               value={value}
               onChange={change}
             />
-            {error ? <FormErrorMessage>{error}</FormErrorMessage> : null}
+            {error && <FormErrorMessage>{error}</FormErrorMessage>}
           </FormControl>
         )}
       </StringFieldWrap>
 
       <StringFieldWrap path="description">
         {({ value, error, change }) => (
-          <FormControl mb="4">
+          <FormControl mb="4" isInvalid={!!error}>
             <FormLabel htmlFor="description" fontWeight={"normal"}>
-              Name of your Project
+              Description of your Project
             </FormLabel>
             <Input
               id="description"
@@ -51,15 +51,14 @@ const ProjectForm = (props: { isLoading: boolean }) => {
               value={value}
               onChange={change}
             />
-            <div>Error:{error}</div>
-            {/* {error ? <FormErrorMessage>{error}</FormErrorMessage> : null} */}
+            {error && <FormErrorMessage>{error}</FormErrorMessage>}
           </FormControl>
         )}
       </StringFieldWrap>
 
       <FieldWrap<string[]> path="technologies">
         {({ value, error, change }) => (
-          <FormControl>
+          <FormControl isInvalid={!!error}>
             <FormLabel htmlFor="technologies" fontWeight={"normal"}>
               Choose your technologies
             </FormLabel>
@@ -90,7 +89,7 @@ const ProjectForm = (props: { isLoading: boolean }) => {
                 )}
               </CheckboxGroup>
             </HStack>
-            {error ? <FormErrorMessage>{error}</FormErrorMessage> : null}
+            {error && <FormErrorMessage>{error}</FormErrorMessage>}
           </FormControl>
         )}
       </FieldWrap>
