@@ -10,28 +10,3 @@ export const projectSchema = z.object({
     .min(30, { message: "Must be 30 or more characters long" }),
   technologies: z.string().array().min(2),
 });
-
-
-export const validate = (schema) => (req, res, next) => {
-  try {
-    schema.parse(req.body);
-    next();
-  } catch (error) {
-    console.log(error.errors);
-    return res.status(422).send({
-      statusCode: 422,
-      message: "Unprocessable Entity",
-      errors: error.errors.reduce((carry, error) => {
-        for (const path of error.path) {
-          const messages = carry[path.toString()] ?? [];
-
-          messages.push(error.message);
-
-          carry[path.toString()] = messages;
-        }
-
-        return carry;
-      }, {}),
-    });
-  }
-};

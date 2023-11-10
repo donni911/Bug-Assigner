@@ -1,5 +1,6 @@
 import express from "express";
-import { validate, projectSchema } from "../middleware/validationProject.js";
+import { projectSchema } from "../middleware/validationProject.js";
+import { validate } from "../middleware/validate.js";
 const router = express.Router();
 
 import {

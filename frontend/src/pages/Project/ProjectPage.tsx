@@ -1,8 +1,5 @@
 import { useParams } from "react-router-dom";
-import {
-  useGetProjectBugsByIdQuery,
-  useGetProjectQuery,
-} from "../../store/api/injections/projects";
+import { useGetProjectQuery } from "@/store/api/index.ts";
 import { SimpleGrid } from "@chakra-ui/react";
 import ProjectInfo from "../../components/Project/components/ProjectInfo";
 import ProjectInfoSkeleton from "./Skeletons/ProjectInfoSkeleton";
@@ -27,9 +24,3 @@ const ProjectPage = () => {
 };
 
 export default ProjectPage;
-function getProjectBugsById(_id: string | undefined): {
-  data: any;
-  isFetching: any;
-} {
-  throw new Error("Function not implemented.");
-}

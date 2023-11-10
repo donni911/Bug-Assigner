@@ -1,5 +1,4 @@
-import { useAddProjectMutation } from "../../store/api/injections/projects.ts";
-
+import { useAddProjectMutation } from "@/store/api/index.ts";
 import { Box, Heading } from "@chakra-ui/react";
 
 import { useNavigate } from "react-router-dom";

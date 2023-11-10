@@ -1,5 +1,7 @@
 
 export const showErrorMessage = (toast: any, str?: string) => {
+    console.log(str);
+
     toast({
         title: str || `Something went wrong.`,
         status: "error",

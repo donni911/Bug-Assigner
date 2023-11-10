@@ -19,7 +19,8 @@ import { SimpleForm, StringFieldWrap } from "@savks/react-forms";
 
 type Props = {
   isOpen: boolean;
-  onClose: () => {};
+  onClose: () => void;
+  
 };
 const AddBugDrawer = (props: Props) => {
   return (
@@ -37,7 +38,7 @@ const AddBugDrawer = (props: Props) => {
                 {({ value, error, change }) => (
                   <FormControl mb="4" isInvalid={!!error}>
                     <FormLabel htmlFor="title" fontWeight={"normal"}>
-                      Issue Title {error}
+                      Issue Title
                     </FormLabel>
                     <Input
                       id="title"
@@ -46,6 +47,7 @@ const AddBugDrawer = (props: Props) => {
                       value={value}
                       onChange={change}
                     />
+
                     {error && <FormErrorMessage>{error}</FormErrorMessage>}
                   </FormControl>
                 )}
@@ -57,7 +59,12 @@ const AddBugDrawer = (props: Props) => {
                     <FormLabel htmlFor="priority" fontWeight={"normal"}>
                       Select priority for your Issue
                     </FormLabel>
-                    <Select id="priority" value={value} onChange={change}>
+                    <Select
+                      id="priority"
+                      placeholder="Select priority"
+                      value={value}
+                      onChange={change}
+                    >
                       <option value="low">Low Priority</option>
                       <option value="medium">Medium Priority</option>
                       <option value="high">High Priority</option>

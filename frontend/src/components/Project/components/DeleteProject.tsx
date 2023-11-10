@@ -9,7 +9,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React from "react";
-import { useDeleteProjectMutation } from "../../../store/api/injections/projects";
+import { useDeleteProjectMutation } from "@/store/api/index.ts";
 import { Project } from "../../../types/Project";
 import { useNavigate } from "react-router-dom";
 

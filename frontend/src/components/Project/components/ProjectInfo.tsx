@@ -34,7 +34,7 @@ const ProjectInfo = (props: { project: Project }) => {
     >
       <VStack alignItems={"start"} p={4}>
         <HStack mb={4} w={"100%"} gap={6} justifyContent={"space-between"}>
-          <Heading as="h2" size="2xl" >
+          <Heading as="h2" size="2xl">
             {props.project?.title}
           </Heading>
           <Menu>
@@ -53,7 +53,11 @@ const ProjectInfo = (props: { project: Project }) => {
               >
                 Update
               </MenuItem>
-              <MenuItem icon={<DeleteIcon />} onClick={onOpen}>
+              <MenuItem
+                color={"red.500"}
+                icon={<DeleteIcon />}
+                onClick={onOpen}
+              >
                 Delete
                 <DeleteProject
                   onClose={onClose}

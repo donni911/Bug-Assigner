@@ -2,7 +2,7 @@ import { SimpleGrid, Text } from "@chakra-ui/react";
 
 import { Project } from "../../types/Project.ts";
 
-import { useGetProjectsQuery } from "../../store/api/injections/projects.ts";
+import { useGetProjectsQuery } from "@/store/api/index.ts";
 
 import ProjectCard from "./ProjectCard";
 import ProjectCardSkeleton from "./skeletons/ProjectCardSkeleton.tsx";

@@ -8,28 +8,5 @@ export const bugSchema = z.object({
   description: z
     .string()
     .min(15, { message: "Must be 15 or more characters long" }),
-  priority: z.enum(["low", "medium", "high"]),
+  priority: z.string().min(1, { message: "Must be priority choosed" }),
 });
-
-export const validate = (schema) => (req, res, next) => {
-  try {
-    schema.parse(req.body);
-    next();
-  } catch (error) {
-    return res.status(422).send({
-      statusCode: 422,
-      message: "Unprocessable Entity",
-      errors: error.errors.reduce((carry, error) => {
-        for (const path of error.path) {
-          const messages = carry[path.toString()] ?? [];
-
-          messages.push(error.message);
-
-          carry[path.toString()] = messages;
-        }
-
-        return carry;
-      }, {}),
-    });
-  }
-};

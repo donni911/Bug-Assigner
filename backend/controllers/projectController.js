@@ -20,12 +20,11 @@ export const getProjects = async (req, res) => {
 export const getProjectsBySlug = async (req, res) => {
   try {
     const project = await Project.findOne({ slug: req.params.slug });
-
-    if (!project) {
-      throw new Error("project not found");
-    }
-
     res.status(200).json({ data: project });
+
+    // TODO: project + issues GOOD EXAMPLE of one request with data
+    // const projectBugs = await Bug.find({ projectId: project._id });
+    // res.status(200).json({ data: project, projectBugs });
   } catch (error) {
     res.status(404).json({
       status: "failed",
@@ -86,7 +85,7 @@ export const deleteProject = async (req, res) => {
       message: `The project with id: ${req.params.id}, was deleted succesfully`,
     });
   } catch (error) {
-    res.status(500).json({
+    res.status(404).json({
       status: "fail",
       message: "cannot delete product",
     });
@@ -98,7 +97,6 @@ export const getProjectBugsById = async (req, res) => {
     const projectBugs = await Bug.find({ projectId: req.params.id });
 
     res.status(200).json({ data: projectBugs });
-    
   } catch (error) {
     res.status(404).json({
       status: "failed",

@@ -8,17 +8,23 @@ import {
   Text,
   VStack,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import BugsList from "./BugsList";
-import { Bug } from "../../types/Bug";
 import AddBugDrawer from "./AddBugDrawer";
 import { Form, FormWrap, useForm } from "@savks/react-forms";
-import { useAddBugMutation } from "../../store/api/injections/bugs";
-import { useGetProjectBugsByIdQuery } from "../../store/api/injections/projects";
+import { useAddBugMutation } from "@/store/api/index.ts";
+import { useGetProjectBugsByIdQuery } from "@/store/api/index.ts";
+import { useEffect } from "react";
+import {
+  showErrorMessage,
+  showSuccessMessage,
+} from "../../components/Project/helpers/toast";
 
 const BugsWrap = (props: { projectId: string }) => {
+  const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [addBug] = useAddBugMutation();
+  const [addBug, { isError, isSuccess }] = useAddBugMutation();
 
   const { data: bugs, isFetching } = useGetProjectBugsByIdQuery(
     props.projectId
@@ -30,6 +36,16 @@ const BugsWrap = (props: { projectId: string }) => {
     priority: "",
     projectId: props.projectId,
   });
+
+  useEffect(() => {
+    if (isError) {
+      showErrorMessage(toast, `Check validation field's`);
+    } else if (isSuccess) {
+      showSuccessMessage(toast, `Bug ${form?.data.title} was created.`);
+      form.restore();
+      onClose();
+    }
+  }, [isError, isSuccess]);
 
   const submitForm = (form: Form) => {
     addBug(form);
@@ -61,16 +77,21 @@ const BugsWrap = (props: { projectId: string }) => {
             Add Issue
           </Button>
           <FormWrap form={form} onSubmit={submitForm}>
-            <AddBugDrawer onClose={onClose} isOpen={isOpen} />
+            <AddBugDrawer onClose={onClose} onOpen={onOpen} isOpen={isOpen} />
           </FormWrap>
         </HStack>
-        {bugs && <BugsList bugs={bugs} />}
+        {bugs && !isFetching && <BugsList bugs={bugs} />}
         {isFetching && (
-          <Stack justifyContent={"center"} alignItems={"center"} h={'100%'} w={'100%'}>
+          <Stack
+            justifyContent={"center"}
+            alignItems={"center"}
+            h={"100%"}
+            w={"100%"}
+          >
             <Spinner w={10} h={10} />
           </Stack>
         )}
-        {!bugs && !isFetching && (
+        {!bugs?.length && !isFetching && (
           <Stack
             w={"100%"}
             h={"100%"}

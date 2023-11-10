@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import AddProjectForm from "../AddProjectForm";
 import UpdateProjectForm from "../UpdateProjectForm"; // Import UpdateProjectForm
-import { useGetProjectQuery } from "../../../store/api/injections/projects";
+import { useGetProjectQuery } from "@/store/api/index.ts";
 
 type Props = {
   updateMode?: boolean;

@@ -1,5 +1,18 @@
 import Bug from "../models/bugModel.js";
 
+export const checkId = async (req, res, next) => {
+  const bug = await Bug.findById(req.params.id);
+  console.log(bug);
+  if (!bug) {
+    res.status(505).json({
+      status: "fail",
+      message: `Cannot find product with id: ${req.params.id}`,
+    });
+    return;
+  }
+  next();
+};
+
 export const getBugs = async (req, res) => {
   try {
     const bugs = await Bug.find();
@@ -59,13 +72,7 @@ export const updateBug = async (req, res) => {
 
 export const addBug = async (req, res) => {
   try {
-    if (!req.body.description) {
-      throw new Error("Bug should contain description!");
-    }
-
-    if (!req.body.title) {
-      throw new Error("Bug should contain description!");
-    }
+    console.log(req.body);
 
     const bug = new Bug(req.body);
 

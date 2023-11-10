@@ -1,4 +1,4 @@
-import { useUpdateProjectMutation } from "../../store/api/injections/projects.ts";
+import { useUpdateProjectMutation } from "@/store/api/index.ts";
 
 import { Box, Heading, useToast } from "@chakra-ui/react";
 
