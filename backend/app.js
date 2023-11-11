@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use("/api/bugs", bugsRouter);
+app.use("/api/bugs", bugsRouter); // add this to index router
 app.use("/api/projects", projectRouter);
 
 export default app;
